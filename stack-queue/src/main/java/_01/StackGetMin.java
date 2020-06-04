@@ -1,7 +1,5 @@
 package _01;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -21,33 +19,42 @@ import java.util.Stack;
 public class StackGetMin {
 
     public static class MyStack {
-        Stack<Integer> normalStack = new Stack<Integer>();
-        Stack<Integer> minStack = new Stack<Integer>();
+        Stack<Integer> normalStack;
+        Stack<Integer> minStack;
+
+        public MyStack() {
+            normalStack = new Stack<Integer>();
+            minStack = new Stack<Integer>();
+        }
+
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         MyStack myStack = new MyStack();
-        int step = scanner.nextInt();
-        for (int i = 0; i <= step; i++) {
+        int step = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < step; i++) {
             String input = scanner.nextLine();
+            // e.g push 3 判断以 push 开头
             if (input.startsWith("push")) {
+                // 入栈
                 String[] split = input.split(" ");
                 Integer number = Integer.parseInt(split[1]);
-                // 入栈
-                inStack(myStack, number);
+                push(myStack, number);
+
             } else if ("getMin".equals(input)) {
                 // 获取最小元素
                 System.out.println(getMin(myStack));
+
             } else if ("pop".equals(input)) {
                 // 出栈
-                popStack(myStack);
+                pop(myStack);
             }
         }
         scanner.close();
     }
 
-    private static void popStack(MyStack myStack) {
+    private static void pop(MyStack myStack) {
         if (myStack.normalStack.isEmpty()) {
             throw new RuntimeException("your stack is empty");
         }
@@ -66,14 +73,15 @@ public class StackGetMin {
         return myStack.minStack.peek();
     }
 
-    private static void inStack(MyStack myStack, Integer number) {
+    private static void push(MyStack myStack, Integer number) {
         myStack.normalStack.push(number);
 
         if (myStack.minStack.empty()) {
             myStack.minStack.push(number);
         } else {
             Integer minTopValue = myStack.minStack.peek();
-            if (number < minTopValue) {
+            // 这里需要增加 <= 的判断
+            if (number <= minTopValue) {
                 myStack.minStack.push(number);
             }
         }
