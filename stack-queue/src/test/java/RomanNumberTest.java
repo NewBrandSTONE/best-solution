@@ -1,42 +1,35 @@
-package string;
+import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * https://leetcode-cn.com/problems/roman-to-integer/
- * 存在的疑问
- * 1.计算的时候如何知道下一位的值是多少？
- * 第一个值从charAt中获取
- * 后续的值，写一个循环从第二个位置开始获取
- */
-public class RomaNumber {
+public class RomanNumberTest {
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String text = scanner.nextLine();
-        System.out.println(outNumber(text));
-        scanner.close();
+    static List<Integer> inputList = new ArrayList<Integer>();
+
+    @Test
+    public void test() {
+        System.out.println(romanToInt("IV"));
     }
 
-    private static Integer outNumber(String text) {
-        List<Integer> integerList = new ArrayList<Integer>();
+    public int romanToInt(String text) {
         Integer result;
         char[] chars = text.toCharArray();
         for (char c : chars) {
-            integerList.add(getValue(c));
+            inputList.add(getValue(c));
         }
-        result = leetCodeCalcResult(integerList);
+        result = leetCodeCalcResult();
         return result;
     }
 
-    private static int leetCodeCalcResult(List<Integer> integerList) {
+    private static int leetCodeCalcResult() {
         int sum = 0;
-        if (integerList.isEmpty()) {
+        if (inputList.isEmpty()) {
             return sum;
         }
-        int preNumber = integerList.get(0);
-        for (int index = 1; index < integerList.size(); index++) {
-            int number = integerList.get(index);
+        int preNumber = inputList.get(0);
+        for (int index = 1; index < inputList.size(); index++) {
+            int number = inputList.get(index);
             if (preNumber < number) {
                 sum = sum - preNumber;
             } else {
